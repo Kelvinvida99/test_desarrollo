@@ -78,8 +78,8 @@ class FruitManager {
             <img src="${fruit.url}" alt="fruit-photo">
             <span class="text-box">
               <p>${fruit.name}</p>
-              <span class="edit"><i class="bi bi-pencil-square"></i></span>
-              <span class="delete"><i class="bi bi-trash"></i></span>
+              <span class="edit au"><i class="bi bi-pencil-square"></i></span>
+              <span class="delete au"><i class="bi bi-trash"></i></span>
             </span>
           </div>
         `;

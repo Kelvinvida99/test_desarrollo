@@ -58,7 +58,14 @@
     </main>
   </body>
 
-
+  <script>
+    const clickSound = new Audio("audio/bubble.mp3");
+    document.querySelector(".btn").addEventListener("click", (event) => {
+      clickSound.play().catch((error) => {
+        console.error("Error al reproducir el sonido:", error);
+      });
+    });
+  </script>
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <script src="form/index.js"></script>
 </html>

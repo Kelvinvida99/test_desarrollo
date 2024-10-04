@@ -20,7 +20,7 @@ body {
 }
 
 .background {
-  background: url(img/background.png) no-repeat;
+  background: url(../img/background.png) no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
@@ -36,7 +36,7 @@ body {
   width: 75%;
   height: 590px;
   margin-top: 20px;
-  background: url(img/background.png) no-repeat;
+  background: url(../img/background.png) no-repeat;
   background-position: center;
   background-size: cover;
   border-radius: 20px;
@@ -70,26 +70,21 @@ section {
     margin-left: -2px;
     margin-top: 4px;
     height: 230px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     &::-webkit-scrollbar {
       width: 5px;
     }
 
-    &::-webkit-scrollbar-track {
-      background: rgba(224, 224, 224, 0);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--color-success);
-      border-radius: 10px;
-      border: none;
-    }
-
     & .item {
       display: flex;
       margin-top: 15px;
-      width: 190px;
+      width: 270px;
+      animation: CSSscrollRevealDown 0.5s ease-in-out both;
+      animation-timeline: view();
 
       & img {
         width: 50px;
@@ -99,16 +94,41 @@ section {
       }
 
       & .text-box {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.27);
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         padding: 10px;
         border-radius: 8px;
         width: 100%;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        position: relative;
 
         & p {
           font-size: 16px;
           color: var(--text-color);
           word-break: break-word;
+        }
+
+        & .edit,
+        & .delete {
+          font-size: 22px;
+          color: var(--text-color);
+          padding: 5px;
+          position: absolute;
+          background-color: #ffffff0d;
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+          border-radius: 5px;
+        }
+
+        & .edit {
+          right: 40px;
+        }
+
+        & .delete {
+          right: 5px;
         }
       }
     }
@@ -132,13 +152,13 @@ section {
 
     & .btn {
       margin-top: 20px;
-      width: 200px;
+      width: 270px;
       height: 45px;
       outline: none;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      background: var(--color-muted);
+      background: var(--color-secondary);
       font-size: 16px;
       color: var(--text-color);
       box-shadow: var(--shadow);
@@ -150,7 +170,7 @@ section {
     }
 
     & .input-box {
-      width: 200px;
+      width: 270px;
       height: 50px;
       border-bottom: 2px solid #fff;
       margin: 10px 0;
@@ -214,14 +234,35 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
 
     & h2 {
       margin-bottom: 10px;
     }
 
     & .table-list {
+      &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0);
+        position: absolute;
+        right: 500px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.4);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: none;
+      }
+      
       & .item {
         min-width: 250px;
+        & .text-box {
+          background-color: rgba(255, 255, 255, 0.27);
+        }
       }
     }
   }
@@ -230,6 +271,7 @@ section {
     display: flex;
     justify-content: center;
     padding: 10%;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     overflow: hidden;
@@ -256,4 +298,19 @@ section {
   visibility: hidden;
   color: red;
   font-size: 10px;
+}
+
+@keyframes CSSscrollRevealDown {
+  0% {
+    opacity: 0;
+    scale: 0.9;
+  }
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    opacity: 0;
+    scale: 0.9;
+  }
 }

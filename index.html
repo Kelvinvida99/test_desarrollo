@@ -9,22 +9,31 @@
     />
     <title>test_desarrollo</title>
 
-    <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
     <div class="background"></div>
     <main class="main-container">
       <section>
-        <div class="container-table">
+        <article class="container-table">
           <h2>Table</h2>
-          <article class="table-list">
-          </article>
-        </div>
+          <div class="table-list">
+            <div class="item" data-id="100">
+              <img src="https://placehold.co/400" alt="fruit-photo">
+              <span class="text-box">
+                <p>manzana</p>
+                <span class="edit"><i class="bi bi-pencil-square"></i></span>
+                <span class="delete"><i class="bi bi-trash"></i></i></span>
+              </span>
+            </div>
+          </div>
+        </article>
 
-        <div class="container-form">
-          <form>
+        <article class="container-form">
+          <form id="fruit-form">
             <h2>Form</h2>
+            <input type="hidden" id="hiddenId" name="id">
             <div class="input-box">
               <span class="icon"><i class="bi bi-x-square"></i></i></span>
               <input type="text" id="fruit" required />
@@ -44,10 +53,12 @@
             </span>
             <button type="submit" class="btn">Submit</button>
           </form>
-        </div>
+        </article>
       </section>
     </main>
   </body>
 
+
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <script src="form/index.js"></script>
 </html>

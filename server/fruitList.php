@@ -13,6 +13,7 @@
     $json[] = array(
       'name' => $row['name'],
       'url' => $row['url'],
+      'pathImage' => $row['pathImage'],
       'id' => $row['id']
     );
   }

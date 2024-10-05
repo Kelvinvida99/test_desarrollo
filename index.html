@@ -31,7 +31,7 @@
         </article>
 
         <article class="container-form">
-          <form id="fruit-form">
+          <form id="fruit-form" enctype="multipart/form-data">
             <h2>Form</h2>
             <input type="hidden" id="hiddenId" name="id">
             <div class="input-box">
@@ -45,13 +45,16 @@
 
             <div class="input-box">
               <span class="icon"><i class="bi bi-x-square"></i></span>
-              <input type="url" id="imgUrl" required />
+              <input type="url" id="imgUrl"/>
               <label for="imgUrl">Image</label>
             </div>
             <span class="alert">
               <p>Ingrese el nombre de la fruta</p>
             </span>
-            <button type="submit" class="btn">Submit</button>
+            <div class="btn-container">
+              <label for="fileInput" class="label-file"><input id="fileInput" type="file" name="image" accept="image/*" style="display: none;"><i class="bi bi-cloud-arrow-up"></i></label>
+              <button type="submit" class="btn">Guardar</button>
+            </div>
           </form>
         </article>
       </section>

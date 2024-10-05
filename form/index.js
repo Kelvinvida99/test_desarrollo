@@ -26,56 +26,56 @@ class FruitManager {
   }
 
   async handleSubmit() {
-    const postData = {
+    const values = {
       name: document.getElementById("fruit").value,
       url: document.getElementById("imgUrl").value,
       id: document.getElementById("hiddenId").value,
     };
 
-    if (!postData.name) {
-      const alert = document.querySelectorAll(".alert")[0];
-      alert.style.visibility = "visible";
-      setTimeout(() => {
-        alert.style.visibility = "hidden";
-      }, 3000);
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0]; // Obtener el archivo seleccionado
 
+    /* if (!file) {
+      console.error("No se ha seleccionado ningún archivo.");
       return;
-    }
+    } */
 
-    if (!postData.url) {
-      const alert = document.querySelectorAll(".alert")[1];
-      alert.style.visibility = "visible";
-      setTimeout(() => {
-        alert.style.visibility = "hidden";
-      }, 3000);
-
-      return;
-    }
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("url", values.url);
+    formData.append("id", values.id);
+    formData.append("file", file);
 
     const url =
       this.edit === false
         ? "/test_desarrollo/server/addItem.php"
         : "/test_desarrollo/server/editFruit.php";
 
-    try {
-      await this.postData(url, postData);
-      document.getElementById("fruit-form").reset();
-      await this.fetchFruit();
-    } catch (error) {
-      console.error("Error in handleSubmit:", error);
-    }
+    this.edit = false;
+
+    const result = await this.sendData(url, formData);
+    console.log(result);
+
+    document.getElementById("fruit-form").reset();
+    await this.fetchFruit();
   }
 
   async fetchFruit() {
     try {
       const response = await fetch("/test_desarrollo/server/fruitList.php");
       const fruits = await response.json();
-
+      console.log(fruits);
       let template = "";
       fruits.forEach((fruit) => {
+        const { pathImage, url } = fruit;
+
+        const srcPath = !pathImage
+          ? url
+          : `/test_desarrollo/server/${pathImage}`;
+
         template += `
           <div class="item" data-id=${fruit.id}>
-            <img src="${fruit.url}" alt="fruit-photo">
+            <img src="${srcPath}" alt="fruit-photo">
             <span class="text-box">
               <p>${fruit.name}</p>
               <span class="edit au"><i class="bi bi-pencil-square"></i></span>
@@ -85,6 +85,14 @@ class FruitManager {
         `;
       });
       document.querySelector(".table-list").innerHTML = template;
+
+      const element01 = document.createElement("div");
+      const element02 = document.createElement("div");
+      element01.className = "element01";
+      element02.className = "element02";
+      document.querySelector(".table-list").prepend(element01);
+      document.querySelector(".table-list").appendChild(element02);
+
     } catch (error) {
       console.error("Error fetching fruits:", error);
     }
@@ -154,9 +162,21 @@ class FruitManager {
       throw error;
     }
   }
+
+  async sendData(url, data) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: data,
+      });
+      return await response.json();
+    } catch (error) {
+      console.error("Error in postData:", error);
+      throw error;
+    }
+  }
 }
 
-// Iniciar la clase FruitManager cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
   new FruitManager();
 });

@@ -2,25 +2,46 @@
 
 include('database.php');
 
-$data = json_decode(file_get_contents("php://input"), true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['url'])) {
+        $id = mysqli_real_escape_string($connection, $_POST['id']);
+        $name = mysqli_real_escape_string($connection, $_POST['name']);
+        $url = mysqli_real_escape_string($connection, $_POST['url']);
 
-if (isset($data['id']) && isset($data['name']) && isset($data['url'])) {
-  $id = mysqli_real_escape_string($connection, $data['id']);
-  $name = mysqli_real_escape_string($connection, $data['name']);
-  $url = mysqli_real_escape_string($connection, $data['url']);
+        $file_path = null;
 
-  $query = "UPDATE fruit SET name = '$name', url = '$url' WHERE id = $id";
+        if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+            $uploadDir = 'uploads/';
+            $fileName = basename($_FILES['file']['name']);
+            $uploadFile = $uploadDir . $fileName;
 
-  $result = mysqli_query($connection, $query);
-  
-  if (!$result) {
-    echo json_encode(['error' => 'Query Failed: ' . mysqli_error($connection)]);
-    exit();
-  }
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
+                $file_path = mysqli_real_escape_string($connection, $uploadFile);
+            } else {
+                echo json_encode(['error' => 'Error al mover el archivo']);
+                exit();
+            }
+        }
 
-  echo json_encode(['message' => 'Record Updated Successfully']);
+        if ($file_path) {
+            $query = "UPDATE fruit SET name = '$name', url = '$url', pathImage = '$file_path' WHERE id = $id";
+        } else {
+            $query = "UPDATE fruit SET name = '$name', url = '$url' WHERE id = $id";
+        }
+
+        $result = mysqli_query($connection, $query);
+
+        if (!$result) {
+            echo json_encode(['error' => 'Query Failed: ' . mysqli_error($connection)]);
+            exit();
+        }
+
+        echo json_encode(['message' => 'Record Updated Successfully']);
+    } else {
+        echo json_encode(['error' => 'Invalid or missing data']);
+    }
 } else {
-  echo json_encode(['error' => 'Invalid or missing data']);
+    echo json_encode(['error' => 'Método no permitido']);
 }
 
 ?>
